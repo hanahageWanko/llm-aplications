@@ -1,0 +1,41 @@
+services:
+  # サービス名
+  llm-django:
+    build:
+      context: ./infra/django    # Dockerfileがあるディレクトリまでの相対パス
+      dockerfile: Dockerfile   # Dockerfileのファイル名
+    
+    # 作成するコンテナ名の指定
+    container_name: llm-django
+
+    # 使用するポートの設定
+    ports:
+      - "8000:8000"
+    depends_on:
+      - llm-db
+    # 対話的なセッションやコマンドラインの操作を許可する
+    tty: true
+    # command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      # ローカルの作業ディレクトリと仮想環境の作業ディレクトリの対応づけ
+      - ${SRC_PATH}:/root/workspace
+
+  # DB
+  llm-db:
+    container_name: llm-db
+    build:
+      context: ./infra/postgres # Dockerfileがあるディレクトリまでの相対パス
+      dockerfile: Dockerfile # Dockerfileのファイル名
+    restart: always
+    tty: true
+    ports:
+      - "5432:5432"
+    # env_file:
+    #   - ./infra/postgres/.env
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postress}
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d

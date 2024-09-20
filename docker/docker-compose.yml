@@ -1,9 +1,0 @@
-services:
-  python:
-    image: python3.12.4
-    build: .
-    container_name: python3.10
-    working_dir: /workspace/src
-    volumes:
-      - ../src:/workspace/src
-    tty: true

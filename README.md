@@ -7,6 +7,7 @@
 ```bash
 docker compose build
 docker compose up
+# ベストプラクティス的には、スタートのプロジェクトは「config」の設定となるため、「config」がよい
 django-admin startproject {プロジェクト名}
 ```
 
@@ -22,7 +23,7 @@ django-admin startproject {プロジェクト名}
 ### 起動
 
 ```bash
-python manage.py runserver 0.0.0.0:8000
+docker compose exec llm-django python manage.py runserver 0.0.0.0:8000
 ```
 
 ### DBの使用
@@ -36,7 +37,7 @@ DATABASES = {
         'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
         'USER': os.environ.get('POSTGRES_USER', 'postgres'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'postgres'),
-        'HOST': os.environ.get('POSTGRES_HOST', 'postgres'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'llm-db'),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
@@ -47,4 +48,3 @@ DATABASES = {
 $ docker compose exec llm-django python manage.py migrate
 $ docker compose exec llm-django python manage.py createsuperuser
 ```
-

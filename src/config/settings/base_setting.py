@@ -124,3 +124,70 @@ STATIC_URL = '/static/' # STATIC_URL上で配信する
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+DEFAULT_LOGGING = {
+    "version": 1,  # ロギング設定のバージョン
+    "disable_existing_loggers": False,  # 既存のロガーを無効化しない
+    "filters": {
+        "require_debug_false": {  # DEBUG設定がFalseの場合にログを出力
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+        "require_debug_true": {  # DEBUG設定がTrueの場合にログを出力
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    # ログ出力フォーマットの設定
+    "formatters": {
+        "django.server": {  # サーバーログのフォーマット
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[{server_time}] {message}",  # ログのフォーマット
+            "style": "{",  # フォーマットスタイル
+        },
+        "production": {
+            "format": "%(asctime)s [%(levelname)s] %(process)d %(thread)d "
+                      "%(pathname)s:%(lineno)d %(message)s",
+        }
+    },
+    "handlers": {
+        "console": {  # コンソールに出力するハンドラー
+            "level": "DEBUG",  # DEBUGレベル以上のログを出力
+            "filters": ["require_debug_true"],  # DEBUGがTrueの場合のみ出力
+            "class": "logging.StreamHandler",  # ストリームハンドラー
+        },
+        "django.server": {  # Djangoサーバーのログを出力するハンドラー
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "django.server",  # 上記で定義したフォーマットを使用
+        },
+        "mail_admins": {  # エラー発生時に管理者にメールを送信するハンドラー
+            "level": "ERROR",  # ERRORレベル以上のログを出力
+            "filters": ["require_debug_false"],  # DEBUGがFalseの場合のみ出力
+            "class": "django.utils.log.AdminEmailHandler",
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/{}/app.log'.format('app'),
+            'formatter': 'production',
+        },
+    },
+    "loggers": {
+        "django": {  # Djangoのルートロガー
+            "handlers": ["console", "mail_admins"],  # 複数のハンドラーを使用
+            "level": "INFO",
+            "propagate": True,  # 親ロガーに伝播させる
+        },
+        "django.server": {  # Djangoサーバーのロガー
+            "handlers": ["django.server"],
+            "level": "INFO",
+            "propagate": False,  # 親ロガーに伝播させない
+        },
+        # 自分のアプリ用設定
+        'my_app': {  # 自分のアプリの名前
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}

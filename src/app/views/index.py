@@ -1,8 +1,7 @@
 
 from django.views.generic import FormView
 from app.services.forms.items import ChatForm
-import logging
-logger = logging.getLogger('django')
+from app.services.utils.logging import DynamicLogger
 
 class ChatView(FormView):
     """
@@ -11,8 +10,12 @@ class ChatView(FormView):
     template_name = 'index.html'
     form_class = ChatForm
     success_url = '/'  # フォーム送信成功後の遷移先
+    def __init__(self):
+        # 引数で設定ファイル名を指定
+        self.logger = DynamicLogger().logger
+
     def post(self, request, *args, **kwargs):
-        logger.info('[start]IndexView処理開始')
+        self.logger.info('[start]ChatView.postの処理開始')
         form = self.form_class(request.POST)
         if form.is_valid():
             # フォームが有効な場合の処理

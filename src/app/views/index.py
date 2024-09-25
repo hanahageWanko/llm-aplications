@@ -2,6 +2,7 @@
 from django.views.generic import FormView
 from app.services.forms.items import ChatForm
 from app.services.utils.logging import DynamicLogger
+from app.services.ai.lang_graph import UserInterviewGraph
 
 class ChatView(FormView):
     """
@@ -23,5 +24,7 @@ class ChatView(FormView):
             cleaned_data = form.cleaned_data
 
         # データベースに保存したり、メールを送信したりする処理をここに記述
+        self.logger.info('ChatGPT連携')
+        UserInterviewGraph()
 
         return super().form_valid(form)

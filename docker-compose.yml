@@ -8,6 +8,10 @@ services:
     # 作成するコンテナ名の指定
     container_name: llm-django
 
+    # 環境変数
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
     # 使用するポートの設定
     ports:
       - "8000:8000"

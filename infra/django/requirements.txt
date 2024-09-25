@@ -3,7 +3,9 @@ environs
 psycopg2
 psycopg2-binary
 django-crispy-forms
-numpy
-pandas
-chainlit
 openai
+langchain
+langchain-openai
+langgraph
+grandalf
+jupyter

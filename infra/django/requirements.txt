@@ -2,10 +2,10 @@ django
 environs
 psycopg2
 psycopg2-binary
+
 django-crispy-forms
+
 openai
 langchain
 langchain-openai
 langgraph
-grandalf
-jupyter

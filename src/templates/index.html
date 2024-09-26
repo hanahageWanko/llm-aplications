@@ -10,6 +10,11 @@
         <!-- フォームクラスの入力項目を表示 -->
         {{ form.as_p }}
         <button type="submit">Submit</button>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p style="color: red;">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
     </form>
 </body>
 

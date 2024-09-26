@@ -6,28 +6,34 @@ from app.services.ai.agent import AgentState
 from app.services.utils.logging import DynamicLogger
 import os
 
-logger = DynamicLogger().logger
+
 
 class UserInterviewGraph:
+    """
+    LangChain生成クラス
+    """
     def __init__(self):
+        logger = DynamicLogger().logger
         # 引数で設定ファイル名を指定
-        self.logger = DynamicLogger().logger
-        self.logger.info('ChatGPT処理実施')
+        logger.info('インタビュー処理開始')
+        # AIと接続
         self._model = ChatOpenAI(
             openai_api_key=os.environ.get("OPENAI_API_KEY"),
             model="gpt-4o-mini"
         )
-
-        self.execute_lang_graph()
-        self.get_result()
+        self._agent = None
+        # # LangChainの実行
+        # self.execute_lang_graph()
+        # # Graph結果の取得
+        # self.get_result()
 
     @property
     def agent(self):
         return self._agent
     
     def get_result(self):
-            logger.info('ChatGPT処理実施main')
-            print("-- start user interview --")
+            self.logger.info('ChatGPT処理実施main')
+            self.logger.info("-- start user interview --")
             for s in self.agent.stream(
                 {
                     "mission": "運動についての意識調査",

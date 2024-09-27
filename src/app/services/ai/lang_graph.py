@@ -1,10 +1,13 @@
-
+"""
+imports
+"""
+import os
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, StateGraph
 from app.services.ai.agent import AgentState
 from app.services.utils.logging import DynamicLogger
-import os
+
 
 
 
@@ -13,9 +16,9 @@ class UserInterviewGraph:
     LangChain生成クラス
     """
     def __init__(self):
-        logger = DynamicLogger().logger
+        self.logger = DynamicLogger().logger
         # 引数で設定ファイル名を指定
-        logger.info('インタビュー処理開始')
+        self.logger.info('インタビュー処理開始')
         # AIと接続
         self._model = ChatOpenAI(
             openai_api_key=os.environ.get("OPENAI_API_KEY"),
@@ -29,30 +32,39 @@ class UserInterviewGraph:
 
     @property
     def agent(self):
+        """
+        グラフチェインのコンパイル結果
+        """
         return self._agent
     
     def get_result(self):
-            self.logger.info('ChatGPT処理実施main')
-            self.logger.info("-- start user interview --")
-            for s in self.agent.stream(
-                {
-                    "mission": "運動についての意識調査",
-                    "persona": "40代の会社員、男性、システムエンジニア、運動は滅多にしない",
-                    "messages": [],
-                }
-            ):
-                if "question" in s:
-                    content = s["question"]["messages"][0].content
-                    print(f"質問: {content}", flush=True)
-                # if "interview" in s:
-                #     content = s["interview"]["messages"][0].content
-                #     print(f"答え: {content}\n", flush=True)
-                # if "report" in s:
-                #     content = s["report"]["messages"][0].content
-                #     print("-- report --")
-                #     print(f"{content}", flush=True)
+        """
+        グラフチェイン結果の出力
+        """
+        self.logger.info('ChatGPT処理実施main')
+        self.logger.info("-- start user interview --")
+        for s in self.agent.stream(
+            {
+                "mission": "運動についての意識調査",
+                "persona": "40代の会社員、男性、システムエンジニア、運動は滅多にしない",
+                "messages": [],
+            }
+        ):
+            if "question" in s:
+                content = s["question"]["messages"][0].content
+                print(f"質問: {content}", flush=True)
+            # if "interview" in s:
+            #     content = s["interview"]["messages"][0].content
+            #     print(f"答え: {content}\n", flush=True)
+            # if "report" in s:
+            #     content = s["report"]["messages"][0].content
+            #     print("-- report --")
+            #     print(f"{content}", flush=True)
 
     def execute_lang_graph(self):
+        """
+        グラフチェインの実行と作成
+        """
                 # グラフを初期化（AgentStateの型に従って情報が保存される）
         workflow = StateGraph(AgentState)
 
@@ -77,6 +89,9 @@ class UserInterviewGraph:
         self._agent = workflow.compile()
 
     def execute_model(self, state, system_message, user_message):
+        """
+        指定されたプロンプトでLLMを実行する共通関数
+        """
         messages = state["messages"]
 
         prompt = ChatPromptTemplate.from_messages(
@@ -101,12 +116,18 @@ class UserInterviewGraph:
         return {"messages": [self.execute_model(state, system_message, user_message)]}
 
     def generate_interview(self, state):
+        """
+        pペルソナからの応答結果を生成する
+        """
         persona = state["persona"]
         system_message = f"あなたは「{persona}」としてユーザーからの質問に100字以内で答えてください。あなたは演技のプロフェッショナルです。"
         user_message = state["messages"][-1].content
         return {"messages": [self.execute_model(state, system_message, user_message)]}
 
     def generate_report(self, state):
+        """
+        インタビュー結果を踏まえてレポートを生成する
+        """
         mission = state["mission"]
         persona = state["persona"]
         system_message = "あなたは超有名コンサルタント会社のアソシエイトです。"
@@ -114,6 +135,9 @@ class UserInterviewGraph:
         return {"messages": [self.execute_model(state, system_message, user_message)]}
 
     def should_continue(self, state):
+        """
+        インタビューを続行するか判定する
+        """
         if len(state["messages"]) < 9:
             return "continue"
         else:

@@ -9,8 +9,6 @@ from app.services.ai.agent import AgentState
 from app.services.utils.logging import DynamicLogger
 
 
-
-
 class UserInterviewGraph:
     """
     LangChain生成クラス

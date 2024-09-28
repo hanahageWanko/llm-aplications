@@ -8,14 +8,22 @@
     <form method="POST">
         {% csrf_token %}
         <!-- フォームクラスの入力項目を表示 -->
-        {{ form.as_p }}
+        {{ form }}
         <button type="submit">Submit</button>
-        {% for field in form %}
+        <!-- {% for field in form %}
             {% for error in field.errors %}
                 <p style="color: red;">{{ error }}</p>
             {% endfor %}
+        {% endfor %} -->
+        {% for key, errors in form.errors.items %}
+            {% for error in errors %}
+                {{ error }}
+            {% endfor %}
         {% endfor %}
     </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
 </body>
 
 </html>

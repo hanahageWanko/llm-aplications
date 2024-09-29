@@ -8,4 +8,8 @@ class DynamicLogger:
         Args:
             logging_setting (str): 呼び出すログ設定
         """
-        self.logger = logging.getLogger(logging_name)
+        self._logging = logging.getLogger(logging_name)
+
+    @property
+    def logger(self):
+        return self._logging

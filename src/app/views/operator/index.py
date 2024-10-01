@@ -5,13 +5,13 @@ from app.services.forms.items import ChatForm
 from app.services.utils.logging import DynamicLogger
 from app.services.ai.lang_graph import UserInterviewGraph
 
-class ChatView(FormView):
-    """
+class OperatorChatView(FormView):
+    """ 
     チャット画面
     """
     template_name = 'index.html'
     form_class = ChatForm
-    success_url = '/'  # フォーム送信成功後の遷移先
+    success_url = 'operator/index'  # フォーム送信成功後の遷移先
 
     def __init__(self, *args, **kwargs):
         # 引数で設定ファイル名を指定

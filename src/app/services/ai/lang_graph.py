@@ -115,7 +115,7 @@ class UserInterviewGraph:
 
     def generate_interview(self, state):
         """
-        pペルソナからの応答結果を生成する
+        ペルソナからの応答結果を生成する
         """
         persona = state["persona"]
         system_message = f"あなたは「{persona}」としてユーザーからの質問に100字以内で答えてください。あなたは演技のプロフェッショナルです。"

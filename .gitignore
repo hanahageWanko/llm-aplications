@@ -2,3 +2,4 @@ db_data
 .env
 __pycache__
 src/config/settings/__pycache__
+text.txt

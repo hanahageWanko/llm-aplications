@@ -9,3 +9,12 @@ mv-model-and-view:
 	mkdir src/app/views
 	touch src/app/views/__init__.py
 	rm src/app/views.py
+
+migrate:
+	docker compose exec llm-django python manage.py migrate --settings=config.settings.development
+
+make:
+	docker compose exec llm-django python manage.py makemigrations --settings=config.settings.development
+
+dbshell:
+	docker compose exec llm-django python manage.py dbshell --settings=config.settings.development

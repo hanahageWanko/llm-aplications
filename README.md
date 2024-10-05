@@ -261,3 +261,26 @@ my_project/
     ├── urls.py     # プロジェクト全体のURLパターンとアプリケーションのURLパターンを関連付けるファイル
     └── wsgi.py     # プロジェクトをウェブサーバーに接続するためのファイル
 ```
+
+# migrationの実行
+- migration用のファイルを作成する
+
+``` bash
+# python manage.py makemigrations <アプリケーション名>
+make make
+```
+
+- migrationを実行する
+
+``` bash
+# python manage.py migrate
+make migrate
+```
+
+- DBにアクセスして、SQLを流す
+  - データベース管理用のシェルを起動する
+
+``` bash
+# python manage.py dbshell
+make dbshell
+```

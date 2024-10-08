@@ -18,3 +18,6 @@ make:
 
 dbshell:
 	docker compose exec llm-django python manage.py dbshell --settings=config.settings.development
+
+installed-packages:
+	docker compose exec llm-django pip freeze

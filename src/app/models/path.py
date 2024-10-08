@@ -16,4 +16,4 @@ class Paths(models.Model):
 
     class Meta:
         # app_label = 'path'
-        db_table = 'path'
+        db_table = 'paths'

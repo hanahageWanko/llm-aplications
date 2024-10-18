@@ -1,7 +1,7 @@
 from django.db import models
 from app.models.missions import Missions
 
-class reports(models.Model):
+class Reports(models.Model):
     """
     チャットボットの応答結果管理テーブル
 

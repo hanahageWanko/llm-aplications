@@ -47,13 +47,13 @@ DATABASES = {
 
 ### DBへの接続および管理画面用のユーザーを作成する
 ``` bash
-$ docker compose exec llm-django python manage.py migrate
-$ docker compose exec llm-django python manage.py createsuperuser
+docker compose exec llm-django python manage.py migrate
+docker compose exec llm-django python manage.py createsuperuser
 ```
 
 ### 本稿完了時のプロジェクトディレクトリ構成
 ```
-app
+src
 │── config // このディレクトリは以下を作成した
 │   ├── __init__.py
 │   ├── asgi.py
@@ -190,11 +190,50 @@ STATIC_URL = '/static/' # STATIC_URL上で配信する
 
 ### 実施後のディレクトリ構造
 ``` bash
-app
+src
 ├── config
 ├── .env # docker利用の場合は、一階層上の場合がある
 ├── manage.py
 ├── static
 ├── statics
 └── manage.py
+```
+
+## アプリケーション models, viewsをパッケージ化する
+### アプリケーションの作成
+``` bash
+docker compose exec llm-django python manage.py startapp app
+```
+
+### modelごと、viewごとにファイルを分割する
+- パッケージ化するために、`model`と`view`をディレクトリ
+- 以降、modelはmodelsディレクトリ、viewはviewsディレクトリに追加する
+  - 追加時、`__init__.py`にimportすること
+
+``` bash
+mkdir src/app/models
+touch src/app/models/__init__.py
+rm src/app/models.py
+mkdir src/app/views
+touch src/app/views/__init__.py
+rm src/app/views.py
+```
+
+## デプロイ
+- git clone(初回以降fetch, mergeでもいい)
+- pipenvでライブラリパッケージのインストール
+- 静的ファイル配信の準備
+- デプロイ環境用DBのmigration
+
+### コマンド
+``` bash
+git fetch
+git merge origin/master
+source .venv/bin/activate
+pipenv install
+python manage.py collectstatic --noinput
+python manage.py makemigrations
+python manage.py migrate
+deactivate
+systemctl restart src
 ```

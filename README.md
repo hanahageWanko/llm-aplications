@@ -53,7 +53,7 @@ $ docker compose exec llm-django python manage.py createsuperuser
 
 ### 本稿完了時のプロジェクトディレクトリ構成
 ```
-testDjango
+app
 │── config // このディレクトリは以下を作成した
 │   ├── __init__.py
 │   ├── asgi.py
@@ -95,4 +95,106 @@ ALLOWED_HOSTS = ['公開するホスト']
 ``` bash
 # development.pyのsettingを使用する場合
 python manage.py runserver 0.0.0.0:8000 --settings=config.settings.development
+```
+
+## templateとstaticを一箇所にまとめられるように調整
+- djangoで静的ファイルやテンプレートを呼び出すと、settings系で設定されたBASE_DIR直下にあるstatic,templatesディレクトリとアプリケーションディレクトリ以下にあるstatic,templatesディレクトリを検索し、最初にヒットしたものを使用する
+- 複数アプリケーションを開発しているとき、静的ファイルやテンプレートの名前が被ると意図しないものを使用してしまう可能性がある
+- それを避けるために名前空間を与えておき、指定するデータを確実に特定できるようにする
+
+### ダメな例
+``` bash
+# ダメな例（名前空間なし）
+│
+┣ app1
+│  ┗ templates
+│      ┣ template1.html
+│      ┗ template2.html
+│
+┣ app2
+│  ┗ templates
+│      ┣ template1.html
+│      ┗ template2.html
+│
+
+# 結果（システムはこう認識する）
+(app1の)template1.html
+(app1の)template2.html
+(app2の)template1.html
+(app2の)template2.html
+# → app1とapp2の区別ができない
+```
+
+### Djangoドキュメントの推奨例
+``` bash
+# 名前空間あり
+│
+┣ app1
+│  ┗ templates
+│      ┗ app1
+│         ┣ template1.html
+│         ┗ template2.html
+│
+┣ app2
+│  ┗ templates
+│      ┗ app2
+│         ┣ template1.html
+│         ┗ template2.html
+
+# 結果（システムはこう認識する）
+app1/template1.html
+app1/template2.html
+app2/template1.html
+app2/template2.html
+# → app1とapp2の区別が区別できる
+```
+
+### ベストプラクティス
+``` bash
+# ダメな例（名前空間なし）
+│
+┣ templates
+│  ┣ app1
+│  ┃  ┣ template1.html
+│  ┃  ┗ template2.html
+│  ┗ app2
+│     ┣ template1.html
+│     ┗ template2.html
+│
+
+# 結果（システムはこう認識する）
+# 結果（システムはこう認識する）
+app1/template1.html
+app1/template2.html
+app2/template1.html
+app2/template2.html
+# → app1とapp2の区別ができない
+```
+
+### 設定変更
+#### setting.py
+``` python
+TEMPLATES = [
+    {
+        〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜〜
+    },
+]
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'statics')]
+# デプロイ用の設定
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # STATICFILES_DIRSで指定されたディレクトリからSTATIC_ROOTにファイルを集めて
+STATIC_URL = '/static/' # STATIC_URL上で配信する
+```
+
+### 実施後のディレクトリ構造
+``` bash
+app
+├── config
+├── .env # docker利用の場合は、一階層上の場合がある
+├── manage.py
+├── static
+├── statics
+└── manage.py
 ```

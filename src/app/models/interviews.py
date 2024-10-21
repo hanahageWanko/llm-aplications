@@ -14,7 +14,7 @@ class Interviews(models.Model):
     """
     id = models.AutoField(primary_key=True, db_column='id')
     mission_id = models.ForeignKey(Missions, on_delete=models.CASCADE, db_column='mission_id', default='')
-    report = models.CharrField(max_length=1000, db_column='report', default='' )
+    report = models.CharField(max_length=1000, db_column='report', default='' )
     created_date = models.DateTimeField(db_column='created_date', auto_now_add=True)
     updated_date = models.DateTimeField(db_column='updated_date', auto_now=True)
 

@@ -14,8 +14,8 @@ class Url_permissions(models.Model):
         updated_date (DateTimeField): レコード更新時間
     """
     id = models.AutoField(primary_key=True, db_column='id')
-    role_id = models.ForeignKey(Roles, on_delete=models.CASCADE, db_column='role_id', default='')
-    url_id = models.ManyToManyField(Urls, on_delete=models.CASCADE, db_column='url_id', default='')
+    role_id = models.ForeignKey(Roles, on_delete=models.CASCADE, db_column='role_id')
+    url_id = models.ManyToManyField(Urls, db_column='url_id')
     created_date = models.DateTimeField(db_column='created_date', auto_now_add=True)
     updated_date = models.DateTimeField(db_column='updated_date', auto_now=True)
 

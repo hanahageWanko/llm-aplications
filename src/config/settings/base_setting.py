@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # 'app.models'
 ]
 
+AUTH_USER_MODEL = "app.Users" # カスタムユーザーを認証用ユーザーとして登録
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

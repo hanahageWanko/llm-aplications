@@ -284,3 +284,49 @@ make migrate
 # python manage.py dbshell
 make dbshell
 ```
+
+## tailwindの導入
+1. `requirements.txt`ファイルに次の行を追加
+    ``` txt
+    django-tailwind[reload]
+    ```
+2. dockerコンテナの再ビルド
+    ``` bash
+    docker compose up -d --build
+    ```
+3. Django-Tailwindをプロジェクトに登録
+    ``` python
+    # setting.py
+    INSTALLED_APPS = [
+      # ......
+      'tailwind'
+    ]
+    ```
+4. テーマアプリを作成
+   ``` bash
+   python manage.py tailwind init
+   ```
+5. テーマアプリを登録
+   ``` python
+   # setting.py
+   INSTALLED_APPS = [
+    # ......
+    'tailwind',
+    'theme' #add
+   ]
+   TAILWIND_APP_NAME = 'theme' #add
+   ``` 
+
+6. Internal IPを登録
+  - ブラウザのリロード機能を利用するために、settings.pyに以下のように記述して、Internal IPを登録
+
+    ``` python
+    INTERNAL_IPS = [
+        "127.0.0.1:8000",
+    ]
+    ```
+
+7. Tailwindの依存インストール
+    ``` bash
+    python manage.py tailwind install
+    ```

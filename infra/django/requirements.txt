@@ -10,3 +10,5 @@ openai
 langchain
 langchain-openai
 langgraph
+
+django-tailwind[reload]

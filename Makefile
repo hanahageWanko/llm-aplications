@@ -21,3 +21,12 @@ dbshell:
 
 installed-packages:
 	docker compose exec llm-django pip freeze
+
+init-tailwind:
+	docker compose exec llm-django python manage.py tailwind init --settings=config.settings.development
+
+install-tailwind:
+	docker compose exec llm-django python manage.py tailwind install --settings=config.settings.development
+
+start:
+	docker compose exec llm-django python manage.py tailwind start --settings=config.settings.development

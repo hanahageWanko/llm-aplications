@@ -1,7 +1,9 @@
 start :
 	docker compose exec llm-django python manage.py runserver 0.0.0.0:8000
-dev:
+
+backend-dev:
 	docker compose exec llm-django python manage.py runserver 0.0.0.0:8000 --settings=config.settings.development
+
 mv-model-and-view:
 	mkdir src/app/models
 	touch src/app/models/__init__.py
@@ -28,5 +30,15 @@ init-tailwind:
 install-tailwind:
 	docker compose exec llm-django python manage.py tailwind install --settings=config.settings.development
 
-start:
+front-start:
 	docker compose exec llm-django python manage.py tailwind start --settings=config.settings.development
+
+dev:
+	@make backend-dev
+	@make front-start
+
+collectstatic:
+	docker compose exec llm-django python manage.py collectstatic --settings=config.settings.development
+
+build:
+	@make collectstatic

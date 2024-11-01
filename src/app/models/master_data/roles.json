@@ -1,0 +1,29 @@
+[
+  {
+    "model": "app.Roles",
+    "pk": 1,
+    "fields": {
+      "name": "customer",
+      "created_date": "2024-11-25 23:40:58.983 +0900",
+      "updated_date": "2024-11-25 23:40:58.983 +0900"
+    }
+  },
+  {
+    "model": "app.Roles",
+    "pk": 2,
+    "fields": {
+      "name": "operator",
+      "created_date": "2024-11-25 23:40:58.983 +0900",
+      "updated_date": "2024-11-25 23:40:58.983 +0900"
+    }
+  },
+  {
+    "model": "app.Roles",
+    "pk": 3,
+    "fields": {
+      "name": "admin",
+      "created_date": "2024-11-25 23:40:58.983 +0900",
+      "updated_date": "2024-11-25 23:40:58.983 +0900"
+    }
+  }
+]

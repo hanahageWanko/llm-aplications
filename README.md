@@ -330,3 +330,69 @@ make dbshell
     ``` bash
     python manage.py tailwind install
     ```
+
+# fixturesを用いたマスターデータ投入（LaravelのSeederのようなもの）
+1. fixtureファイルの作成:
+   - JSONまたはXML形式で、投入したいデータを記述する
+   - Djangoのadminサイトでサンプルデータを生成し、それをエクスポートしてテンプレートとして利用することも可能
+2. fixturesディレクトリの作成:
+   - アプリケーションのディレクトリ内にfixturesディレクトリを作成し、作成したfixtureファイルを配置する 
+3. コマンド実行:
+   - ターミナルで以下のコマンドを実行
+    ``` bash
+    python manage.py loaddata <fixtureファイル名>
+    ```
+
+## fixturesファイルのサンプル
+``` json
+# users.json
+[
+    {"model": "myapp.User", "pk": 1, "fields": {"username": "admin", "email": "admin@example.com"}},
+    {"model": "myapp.User", "pk": 2, "fields": {"username": "user", "email": "user@example.com"}}
+]
+```
+
+## fixturexの実行コマンド例
+``` bash
+python manage.py loaddata users.json
+```
+
+## Djangoのfixturesで現在時刻を登録する方法
+- Djangoのfixturesで、create_dataやupdated_dataフィールドに現在時刻を登録したい場合
+  - 直接時刻を記述するのではなく、Pythonのスクリプトで動的に生成し、fixturesファイルに書き込む
+
+``` python
+# manage.pyのcommands.pyに以下のコードを追加
+from django.core.management.base import BaseCommand
+import json
+from django.utils import timezone
+
+class Command(BaseCommand):
+    help = 'Generate fixtures with current timestamp'
+
+    def handle(self, *args, **options):
+        # fixturesファイルのパス
+fixtures_file = 'my_app/fixtures/my_data.json'
+
+# データのリスト
+data = [
+    {
+        "model": "myapp.MyModel",
+        "pk": 1,
+        "fields": {
+            "name": "サンプルデータ",
+            "created_at": timezone.now().isoformat(),  # 現在時刻をISO形式で
+            "updated_at": timezone.now().isoformat()
+        }
+    },
+    # ... 他のデータ
+]
+
+# JSONファイルに書き込み
+with open(fixtures_file, 'w') as f:
+    json.dump(data, f, indent=4)
+```
+
+``` bash
+python manage.py generate_fixtures
+```

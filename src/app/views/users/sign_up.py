@@ -1,9 +1,9 @@
 from django.views.generic.edit import FormView
-from app.services.forms.users.sign_up import SignupForm
+from app.services.users.form.sign_up import SignupForm
 from app.services.utils.logging import DynamicLogger
 from django.contrib import messages
 from django.shortcuts import redirect
-from app.models.users import UsersManager,Users
+from app.models.users import Users
 
 class UserSignUpView(FormView):
     """ 
@@ -46,12 +46,18 @@ class UserSignUpView(FormView):
         cleaned_password = form.cleaned_data.get('password', None)
 
         self.logger.info("usersテーブルへの書き込み開始")
+
         Users.objects.create_user(
             email=cleaned_email,
             first_name=cleaned_first_name,
             last_name=cleaned_last_name, 
             password=cleaned_password
         )
+
+
+
+
+
 
         # DBへのデータ登録を実行
         return super().form_valid(form)

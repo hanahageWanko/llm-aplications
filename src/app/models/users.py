@@ -30,13 +30,13 @@ class Users(AbstractBaseUser):
         primary_key=True,
         default=uuid_lib.uuid4,
         db_index=True,
+        unique=True, 
         db_column='uuid'
     )
 
     username = models.CharField(
         max_length=200, 
         db_column='username', 
-        unique=True, 
         default='' 
     )
 
@@ -66,6 +66,11 @@ class Users(AbstractBaseUser):
 
     is_active = models.BooleanField(
         db_column='is_active', 
+        default=False
+    )
+
+    is_superuser = models.BooleanField(
+        db_column='is_superuser', 
         default=False
     )
 

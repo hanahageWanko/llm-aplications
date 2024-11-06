@@ -1,9 +1,10 @@
 from django.views.generic.edit import FormView
+from django.contrib import messages
+from django.db import transaction
+from app.models.users import Users
 from app.services.users.form.sign_up import SignupForm
 from app.services.utils.logging import DynamicLogger
-from django.contrib import messages
-from django.shortcuts import redirect
-from app.models.users import Users
+from app.services.users.RoleService import RoleService
 
 class UserSignUpView(FormView):
     """ 
@@ -45,21 +46,29 @@ class UserSignUpView(FormView):
         cleaned_email = form.cleaned_data.get('email', None)
         cleaned_password = form.cleaned_data.get('password', None)
 
-        self.logger.info("usersテーブルへの書き込み開始")
+        self.logger.info('Activeステータスの同メールアドレスが存在しないかを検索')
+        if(Users.objects.search_with_email_active_status(cleaned_email)):
+            messages.error(self.request, "入力いただいたメールアドレスはご利用いただけません")
+        
+        else:
+            self.logger.info("usersテーブルへの書き込み開始")
+            with transaction.atomic():
+                try:
+                    user = Users.objects.create_user(
+                        email=cleaned_email,
+                        first_name=cleaned_first_name,
+                        last_name=cleaned_last_name, 
+                        password=cleaned_password
+                    )
 
-        Users.objects.create_user(
-            email=cleaned_email,
-            first_name=cleaned_first_name,
-            last_name=cleaned_last_name, 
-            password=cleaned_password
-        )
-
-
-
-
-
-
-        # DBへのデータ登録を実行
+                    RoleService.create_role_user(
+                        user_id=user,
+                        role_id=1
+                    )
+                except Exception as e:
+                    self.logger.info(f"Fatalエラー発生：{e}")
+                    messages.error(self.request, "エラーが発生しました")
+        
         return super().form_valid(form)
     
     def form_invalid(self, form):

@@ -9,6 +9,13 @@
         <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
       </div>
       <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+        {% if messages %}
+            <ul class="messages red">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <form class="space-y-6" method="POST"> 
           {% csrf_token %}
           <div>

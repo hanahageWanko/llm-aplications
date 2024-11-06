@@ -12,6 +12,8 @@ class UserService(BaseUserManager):
 
         email, username, password は必須項目
         extra_fields にはその他の任意のフィールドを指定できる
+        Return:
+            uuid ユーザーのuuid
         """
         print('services.users.UserService._create_userの処理開始')
         if not email:
@@ -44,6 +46,9 @@ class UserService(BaseUserManager):
         extra_fields にはその他の任意のフィールドを指定できる
 
         デフォルトでは、アクティブ(is_active=True)
+
+        Return:
+            ユーザーのuuid
         """
         print('services.users.UserService.create_userの処理開始')
         extra_fields.setdefault('is_active', True)
@@ -75,3 +80,18 @@ class UserService(BaseUserManager):
             password=password,
             **extra_fields,
         )
+    
+    def search_with_email_active_status(self,email):
+        '''
+        対象のメールアドレスが、アクティブ状態でDBに存在するかを確認
+        メールアドレスが存在してもアクティブでなければFalseを返却
+
+        Return:
+            存在する True
+            存在しない False
+        '''
+        print("--- search_with_email_active_status ---")
+        if(self.filter(is_active=True, email=email).count() >= 1):
+            return True
+        else:
+            return False

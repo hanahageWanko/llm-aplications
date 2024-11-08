@@ -396,3 +396,14 @@ with open(fixtures_file, 'w') as f:
 ``` bash
 python manage.py generate_fixtures
 ```
+
+## 機能拡張の手順
+### view関連
+1. config/urls.pyにルートを追加
+2. 必要なhtmlテンプレートファイルとviewファイルを作成
+
+### model関連・ロジック
+1. model：モデル定義に関することだけを定義
+2. manager:モデルに対するCRUD関連処理を定義
+3. service:managerを経由したmodelへのアクセスや、各機能ごとの処理を記載
+4. view:表示処理

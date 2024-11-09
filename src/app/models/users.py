@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.mail import send_mail
 import uuid as uuid_lib
-from app.services.users.UserService import UserService
+from app.managers.UserManager import UserManager
 from django.contrib.auth.models import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
@@ -89,7 +89,7 @@ class Users(AbstractBaseUser):
         auto_now=True
     )
 
-    objects = UserService()
+    objects = UserManager()
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'uuid' # 一意の識別子として使用
     REQUIRED_FIELDS = []  # ユーザーを作成するときにプロンプ​​トに表示されるフィールド名のリスト

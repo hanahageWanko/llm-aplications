@@ -1,0 +1,60 @@
+{% extends 'layouts/base.html' %}
+{% block title %}子テンプレートのタイトル{% endblock %}
+{% block content %}
+<div class="container my-3" style="max-width:700px; background:#cfcfcf;">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div>
+      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to Admin account</h2>
+      </div>
+      <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+        {% if messages %}
+            <ul class="messages red">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form class="space-y-6" method="POST"> 
+          {% csrf_token %}
+          <div>
+              <label for="id_first_name">姓:</label>
+              <input type="text" name="first_name" maxlength="100" required="" id="id_first_name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+              <div class="red">{{ form.first_name.errors }}</div>
+          </div>
+          <div class="mt-6">
+              <label for="id_last_name">名:</label>
+              <input type="text" name="last_name" maxlength="100" required="" id="id_last_name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+              <div class="red">{{ form.last_name.errors }}</div>
+          </div>
+          <div class="mt-6">
+              <label for="id_email">メールアドレス:</label>
+              <input type="email" name="email" maxlength="256" required="" id="id_email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+              <div class="red">{{ form.email.errors }}</div>
+          </div>
+          <div class="mt-9">
+              <label for="id_email_confirm">メールアドレス（確認用）:</label>
+              <input type="email" name="email_confirm" maxlength="320" required="" id="id_email_confirm" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+              <div class="red">{{ form.email_confirm.errors }}</div>
+          </div>
+          <div class="mt-6">
+              <label for="id_password">パスワード:</label>
+              <input type="text" name="password" maxlength="256" required="" id="id_password" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+              <div class="red">{{ form.password.errors }}</div>
+          </div>
+    
+          <div class="mt-5">
+              <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+          </div>
+        </form>
+
+        <p class="mt-5 text-center text-sm/6 text-gray-500">
+          Not a member?
+          <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -31,7 +31,6 @@ class SignupForm(forms.Form):
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
         if len(first_name) >= 100:
-            print(return_message["first_name"])
             raise forms.ValidationError(return_message["first_name"])
         return first_name
 
@@ -39,7 +38,6 @@ class SignupForm(forms.Form):
         last_name = self.cleaned_data['last_name']
 
         if len(last_name) >= 100:
-            print(return_message["last_name"])
             raise forms.ValidationError(return_message["last_name"])
         return last_name
 
@@ -47,7 +45,6 @@ class SignupForm(forms.Form):
         email = self.cleaned_data['email']
         # カスタムバリデーション例: 特定のドメインを禁止
         if len(email) >= 100:
-            print(return_message["email"])
             raise forms.ValidationError(return_message["email"])
         return email
 
@@ -55,15 +52,12 @@ class SignupForm(forms.Form):
         password = self.cleaned_data['password']
         # カスタムバリデーション例: 特定のドメインを禁止
         if len(password) >= 100:
-            print(return_message["password"])
             raise forms.ValidationError(return_message["email"])
         return password
 
     def clean_email_confirm(self):
         email = self.cleaned_data['email']
         email_confirm = self.cleaned_data['email_confirm']
-        print(email)
-        print(email_confirm)
         # カスタムバリデーション例: 特定のドメインを禁止
         if email != email_confirm:
             raise forms.ValidationError(return_message["email_confirm"])

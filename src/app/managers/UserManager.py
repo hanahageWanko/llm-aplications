@@ -51,9 +51,6 @@ class UserManager(BaseUserManager):
         """
         print('services.users.UserService.create_userの処理開始')
         extra_fields.setdefault('is_active', True)
-        print('<><><><>><>><>><><><><><>><>')
-        print(self)
-        print('<><><><>><>><>><><><><><>><>')
         return self._create_user(
             email=email,
             first_name=first_name,

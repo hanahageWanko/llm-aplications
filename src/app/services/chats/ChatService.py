@@ -23,3 +23,7 @@ class ChatService():
         # # return Personas.objects.get_all_item()
         persona_list = Personas.objects.get_all_item()
         return persona_list
+    
+    def is_persona_record_exists(persona_id):
+        return
+        

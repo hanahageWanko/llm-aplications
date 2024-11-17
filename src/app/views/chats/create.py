@@ -40,6 +40,7 @@ class ChatCreateForm(FormView):
         """
         フォームのバリデーションチェック正常通過
         """
+        print(form)
         return super().form_valid(form)
     
     def form_invalid(self, form):

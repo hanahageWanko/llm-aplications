@@ -9,7 +9,11 @@
     {% endfor %}
     </ul>
     {% endif %}
-
+    <!-- <form action="">
+        {% csrf_token %}
+        {{form}}
+    <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">送信</button>
+    </form> -->
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div>
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -27,24 +31,24 @@
         <form class="space-y-6" method="POST"> 
           {% csrf_token %}
           <div>
-              <label for="id_first_name">テーマ（タイトル）:</label>
-              <input type="text" name="first_name" maxlength="100" required="" id="id_first_name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" placeholder="例：今日の天気について">
-              <div class="red">{{ form.first_name.errors }}</div>
+              <label for="id_mission">テーマ（タイトル）:</label>
+              <input type="text" name="mission" maxlength="100" required="" id="id_mission" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" placeholder="例：今日の天気について">
+              <div class="red">{{ form.mission.errors }}</div>
           </div>
           <div class="mt-6">
-              <label for="id_last_name">ペルソナ:</label>
-              <select class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              <label for="id_persona">ペルソナ:</label>
+              <select name="persona" id="id_persona" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected>選択してください</option>
                 {% for persona in persona_list %}
                 <option value="{{ persona.id }}">{{ persona.persona }}</option>
                 {% endfor %}
               </select>
-              <div class="red">{{ form.last_name.errors }}</div>
+              <div class="red">{{ form.persona.errors }}</div>
           </div>
           <div class="mt-6">
-              <label for="id_email">チャット本文:</label>
-              <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="例：午後からの予報は？"></textarea>
-              <div class="red">{{ form.email.errors }}</div>
+              <label for="id_sentence">チャット本文:</label>
+              <textarea name="sentence" id="id_sentence" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="例：午後からの予報は？"></textarea>
+              <div class="red">{{ form.sentence.errors }}</div>
           </div>
     
           <div class="mt-5">

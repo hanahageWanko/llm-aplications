@@ -17,7 +17,7 @@ class Personas(models.Model):
         db_column='id'
     )
     persona = models.CharField(
-        max_length=100, 
+        max_length=256, 
         db_column='persona', 
         default='' 
     )

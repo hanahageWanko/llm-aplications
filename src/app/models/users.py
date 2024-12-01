@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.mail import send_mail
 import uuid as uuid_lib
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
 class UsersManager(BaseUserManager):
@@ -16,6 +16,7 @@ class UsersManager(BaseUserManager):
         email, username, password は必須項目
         extra_fields にはその他の任意のフィールドを指定できる
         """
+        print('models.UsersManager._create_userの処理開始')
         if not email:
             raise ValueError('The given email must be set')
         if not first_name:
@@ -25,13 +26,19 @@ class UsersManager(BaseUserManager):
         if not password:
             raise ValueError('The given password must be set')
         email = self.normalize_email(email)  # メールアドレスを標準化
-        user = self.model(email=email, first_name=first_name, last_name=last_name, username=self.get_full_name(), **extra_fields)
+        user = self.model(
+            email=email, 
+            first_name=first_name, 
+            last_name=last_name, 
+            username=last_name+first_name,
+            **extra_fields
+        )
         user.set_password(password)  # パスワードをハッシュ化して設定
         user.save(using=self._db)  # ユーザー情報をデータベースに保存
-
+        print('user情報の新規登録完了')
         return user
 
-    def create_user(self, email, first_name, last_name, password=None, **extra_fields):
+    def create_user(self, email, first_name, last_name, password, **extra_fields):
         """
         通常のユーザーを作成するメソッド
 
@@ -41,7 +48,9 @@ class UsersManager(BaseUserManager):
 
         デフォルトでは、アクティブ(is_active=True)
         """
+        print('models.UsersManager.create_userの処理開始')
         extra_fields.setdefault('is_active', True)
+
         return self._create_user(
             email=email,
             first_name=first_name,
@@ -60,6 +69,7 @@ class UsersManager(BaseUserManager):
         スーパーユーザーはアクティブ(is_active=True)で、
         スタッフ権限(is_staff=True)とスーパーユーザー権限(is_superuser=True)を持ちます。
         """
+        print('models.UsersManager.create_superuserの処理開始')
         extra_fields['is_active'] = True
         return self._create_user(
             email=email,
@@ -69,7 +79,7 @@ class UsersManager(BaseUserManager):
             **extra_fields,
         )
 
-class Users(AbstractBaseUser,PermissionsMixin):
+class Users(AbstractBaseUser):
     """
     ユーザー情報の管理テーブル
 
@@ -85,9 +95,13 @@ class Users(AbstractBaseUser,PermissionsMixin):
         created_date (DateTimeField): レコード作成時間
         updated_date (DateTimeField): レコード更新時間
     """
+    # def __init__(self):
+    #     self.id = uuid_lib.uuid4()
+
     uuid = models.UUIDField(
         primary_key=True,
         default=uuid_lib.uuid4,
+        db_index=True,
         db_column='uuid'
     )
 
@@ -148,7 +162,7 @@ class Users(AbstractBaseUser,PermissionsMixin):
     REQUIRED_FIELDS = []  # ユーザーを作成するときにプロンプ​​トに表示されるフィールド名のリスト
 
     def __str__(self):
-            return self.uuid_lib
+        return str(self.uuid)  # UUIDを文字列に変換して返す
 
     def get_full_name(self):
         """Return the first_name plus the last_name, with a space in

@@ -13,6 +13,7 @@
     </ul>
     {% endif %}
 </ul>
+<div class="flex">
     <form method="POST">
         {% csrf_token %}
         <!-- フォームクラスの入力項目を表示 -->
@@ -32,6 +33,10 @@
     {% if message %}
         <p>{{ message }}</p>
     {% endif %}
+</div>
+<div class="flex">
+    <a href="{% url 'users/signup' %}">ADMIN</a>
+</div>
 </body>
 
 </html>

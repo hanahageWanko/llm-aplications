@@ -801,8 +801,16 @@ select {
   margin-top: 2.5rem;
 }
 
-.mt-2 {
-  margin-top: 0.5rem;
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.mt-9 {
+  margin-top: 2.25rem;
 }
 
 .block {
@@ -813,16 +821,16 @@ select {
   display: flex;
 }
 
-.h-screen {
-  height: 100vh;
+.grid {
+  display: grid;
 }
 
 .h-10 {
   height: 2.5rem;
 }
 
-.h-full {
-  height: 100%;
+.h-screen {
+  height: 100vh;
 }
 
 .min-h-full {
@@ -841,16 +849,16 @@ select {
   flex-direction: column;
 }
 
+.place-items-center {
+  place-items: center;
+}
+
 .items-center {
   align-items: center;
 }
 
 .justify-center {
   justify-content: center;
-}
-
-.justify-between {
-  justify-content: space-between;
 }
 
 .space-y-6 > :not([hidden]) ~ :not([hidden]) {
@@ -902,6 +910,11 @@ select {
   padding-bottom: 3rem;
 }
 
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -910,19 +923,14 @@ select {
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
-}
-
 .text-2xl\/9 {
   font-size: 1.5rem;
   line-height: 2.25rem;
 }
 
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .text-sm\/6 {
@@ -932,10 +940,6 @@ select {
 
 .font-bold {
   font-weight: 700;
-}
-
-.font-medium {
-  font-weight: 500;
 }
 
 .font-semibold {
@@ -1058,6 +1062,11 @@ select {
 
   .sm\:max-w-sm {
     max-width: 24rem;
+  }
+
+  .sm\:py-32 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
 
   .sm\:text-sm\/6 {

@@ -36,10 +36,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
+    'tailwind',
+    'theme',
+    'django_browser_reload'
     # 'app.models'
-    # 'app',
+    # 'app'
     # 'app.models'
+]
+
+TAILWIND_APP_NAME = 'theme' # tailwindのテーマネーム
+
+# ブラウザのリロード機能を利用
+INTERNAL_IPS = [
+    "127.0.0.1:8000",
 ]
 
 AUTH_USER_MODEL = "app.Users" # カスタムユーザーを認証用ユーザーとして登録
@@ -52,7 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'app.middlewares.access_control.AccessControlMiddleware' #add
+    'app.middlewares.access_control.AccessControlMiddleware', #add
+    "django_browser_reload.middleware.BrowserReloadMiddleware" #add
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -87,6 +98,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'postgres'),
         'HOST': os.environ.get('POSTGRES_HOST', 'llm-db'),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'ATOMIC_REQUESTS': True  # トランザクションを有効化
     }
 }
 
@@ -124,9 +136,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'statics')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # デプロイ用の設定
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') # STATICFILES_DIRSで指定されたディレクトリからSTATIC_ROOTにファイルを集めて
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/') # STATICFILES_DIRSで指定されたディレクトリからSTATIC_ROOTにファイルを集めて
 STATIC_URL = '/static/' # STATIC_URL上で配信する
 
 # Default primary key field type

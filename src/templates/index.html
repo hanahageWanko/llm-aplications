@@ -5,6 +5,15 @@
 </head>
 
 <body>
+    {% if messages %}
+    <ul class="messages_ul">
+      {% for message in messages %}
+        <li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+</ul>
+<div class="flex">
     <form method="POST">
         {% csrf_token %}
         <!-- フォームクラスの入力項目を表示 -->
@@ -24,6 +33,10 @@
     {% if message %}
         <p>{{ message }}</p>
     {% endif %}
+</div>
+<div class="flex">
+    <a href="{% url 'users/signup' %}">ADMIN</a>
+</div>
 </body>
 
 </html>

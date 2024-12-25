@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os 
+# import django
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+# django.setup()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -33,7 +36,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
+    'tailwind',
+    'theme',
+    'django_browser_reload'
+    # 'app.models'
+    # 'app'
+    # 'app.models'
 ]
+
+TAILWIND_APP_NAME = 'theme' # tailwindのテーマネーム
+
+# ブラウザのリロード機能を利用
+INTERNAL_IPS = [
+    "127.0.0.1:8000",
+]
+
+AUTH_USER_MODEL = "app.Users" # カスタムユーザーを認証用ユーザーとして登録
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -43,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app.middlewares.access_control.AccessControlMiddleware', #add
+    "django_browser_reload.middleware.BrowserReloadMiddleware" #add
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -77,9 +98,9 @@ DATABASES = {
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'postgres'),
         'HOST': os.environ.get('POSTGRES_HOST', 'llm-db'),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'ATOMIC_REQUESTS': True  # トランザクションを有効化
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -103,21 +124,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'statics')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # デプロイ用の設定
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') # STATICFILES_DIRSで指定されたディレクトリからSTATIC_ROOTにファイルを集めて
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/') # STATICFILES_DIRSで指定されたディレクトリからSTATIC_ROOTにファイルを集めて
 STATIC_URL = '/static/' # STATIC_URL上で配信する
 
 # Default primary key field type

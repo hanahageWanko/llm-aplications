@@ -1,0 +1,26 @@
+.mt-2 {
+    margin-top: 0.625rem; /* 10px */
+}
+
+.mt-3 {
+    margin-top: 0.75rem; /* 12px */
+}
+
+.mt-3.5 {
+    margin-top: 0.875rem; /* 14px */
+}
+
+.mt-4 {
+    margin-top: 1rem; /* 16px */
+}
+.mt-5 {
+    margin-top: 1.25rem; /* 20px */
+}
+
+.mt-6 {
+    margin-top: 1.5rem; /* 24px */
+}
+
+.errorlist li {
+    color:red !important;
+}

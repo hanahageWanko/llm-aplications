@@ -4,8 +4,11 @@ psycopg2
 psycopg2-binary
 
 django-crispy-forms
+django-cors-headers
 
 openai
 langchain
 langchain-openai
 langgraph
+
+django-tailwind[reload]

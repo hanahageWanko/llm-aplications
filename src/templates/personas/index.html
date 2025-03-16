@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DataTables Example</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" class="init">
+        $(document).ready(function() {
+          let hasSearched = false; // 検索が行われたかどうかを追跡するフラグ
+          let initialLoadComplete = false; // 初期ロードが完了したかどうかを追跡するフラグ
+      
+          $('#example4').DataTable({
+              language: {
+                  zeroRecords: function () {
+                      if (!initialLoadComplete) {
+                          return "データロード中..."; // 初期ロード中は別のメッセージを表示
+                      } else if (!hasSearched) {
+                          return "X"; // 検索前
+                      } else {
+                          return "Y"; // 検索後
+                      }
+                  },
+                  emptyTable:"ああああああ"
+              },
+              serverSide: true, // ajaxを使用する場合はtrueに設定
+              ajax: {
+                  url: '/api', // データの取得先URL
+                  dataSrc: 'data', // JSONデータのキー (必要に応じて)
+                  complete: function(data) {
+                      initialLoadComplete = true; // 初期ロード完了
+                      const api = $('#example4').DataTable();
+                      api.draw(); //テーブルを再描画
+                  }
+              },
+              initComplete: function () {
+                  const api = this.api();
+      
+                  api.on('search.dt', function () {
+                      hasSearched = true; // 検索が行われたらフラグをtrueに設定
+                      api.draw(); // テーブルを再描画してメッセージを更新
+                  });
+              }
+          });
+
+        });
+
+    </script>
+</head>
+<body>
+
+
+<h1>serverSideでデータがあるサンプル</h1>
+<table id="example4" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+</table>
+
+</body>
+</html>
+<!-- {% extends 'layouts/base.html' %}
+{% block title %}ペルソナ一覧{% endblock %}
+{% block content %}
+<div class="container my-3" style="max-width:700px;">
+  <div>
+    <a href="{% url 'chats/create' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">新規チャットを始める</a>
+  </div>
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <table class="table-auto">
+        <thead>
+            <th>ID</th><th>本文</th>
+        </thead>
+        <tbody>
+            {% for obj in missions_list %}
+            <tr>
+                <td>{{ obj.user_uuid }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{missions_list}}
+  </div>
+</div>
+{% endblock %} -->

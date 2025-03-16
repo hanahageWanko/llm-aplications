@@ -7,6 +7,7 @@ from app.views.users.sign_up import UserSignUpView
 from app.views.users.admin.sign_up import AdminSignUpView
 from app.views.chats.index import ChatIndexView
 from app.views.chats.create import ChatCreateForm
+from app.views.personas.index import PersonaIndexView,my_api_view
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -16,6 +17,8 @@ urlpatterns = [
     path("admin/signup", AdminSignUpView.as_view(), name="admin/signup"),
     path("chats", ChatIndexView.as_view(), name="chats/index"),
     path("chats/create", ChatCreateForm.as_view(), name="chats/create"),
+    path("personas", PersonaIndexView.as_view(), name="personas/index"),
+    path('api', my_api_view, name='my_api'),
     path("__reload__/", include("django_browser_reload.urls"))
     # path('chat/', include('chat.urls')),
 ] 

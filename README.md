@@ -401,6 +401,7 @@ python manage.py generate_fixtures
 ### view関連
 1. config/urls.pyにルートを追加
 2. 必要なhtmlテンプレートファイルとviewファイルを作成
+   1. 必要に応じてformファイルも作成
 
 ### model関連・ロジック
 1. model：モデル定義に関することだけを定義

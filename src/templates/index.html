@@ -1,42 +1,12 @@
-<html>
-
-<head>
-    <meta charset='utf-8' />
-</head>
-
-<body>
-    {% if messages %}
-    <ul class="messages_ul">
-      {% for message in messages %}
-        <li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-</ul>
-<div class="flex">
-    <form method="POST">
-        {% csrf_token %}
-        <!-- フォームクラスの入力項目を表示 -->
-        {{ form }}
-        <button type="submit">Submit</button>
-        <!-- {% for field in form %}
-            {% for error in field.errors %}
-                <p style="color: red;">{{ error }}</p>
-            {% endfor %}
-        {% endfor %} -->
-        {% for key, errors in form.errors.items %}
-            {% for error in errors %}
-                {{ error }}
-            {% endfor %}
-        {% endfor %}
-    </form>
-    {% if message %}
-        <p>{{ message }}</p>
-    {% endif %}
+{% extends 'layouts/base.html' %}
+{% block title %}チャットbotサンプル{% endblock %}
+{% block content %}
+<div class="flex" style="height:100vh; align-items:center;">
+    <div class="mx-2">
+        <a href="{% url 'users/signup' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">一般ユーザー</a>
+    </div>
+    <div class="mx-2">
+        <a href="{% url 'admin/signup' %}" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">管理者ユーザー</a>
+    </div>
 </div>
-<div class="flex">
-    <a href="{% url 'users/signup' %}">ADMIN</a>
-</div>
-</body>
-
-</html>
+{% endblock %}

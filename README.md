@@ -284,3 +284,127 @@ make migrate
 # python manage.py dbshell
 make dbshell
 ```
+
+## tailwindの導入
+1. `requirements.txt`ファイルに次の行を追加
+    ``` txt
+    django-tailwind[reload]
+    ```
+2. dockerコンテナの再ビルド
+    ``` bash
+    docker compose up -d --build
+    ```
+3. Django-Tailwindをプロジェクトに登録
+    ``` python
+    # setting.py
+    INSTALLED_APPS = [
+      # ......
+      'tailwind'
+    ]
+    ```
+4. テーマアプリを作成
+   ``` bash
+   python manage.py tailwind init
+   ```
+5. テーマアプリを登録
+   ``` python
+   # setting.py
+   INSTALLED_APPS = [
+    # ......
+    'tailwind',
+    'theme' #add
+   ]
+   TAILWIND_APP_NAME = 'theme' #add
+   ``` 
+
+6. Internal IPを登録
+  - ブラウザのリロード機能を利用するために、settings.pyに以下のように記述して、Internal IPを登録
+
+    ``` python
+    INTERNAL_IPS = [
+        "127.0.0.1:8000",
+    ]
+    ```
+
+7. Tailwindの依存インストール
+    ``` bash
+    python manage.py tailwind install
+    ```
+
+# fixturesを用いたマスターデータ投入（LaravelのSeederのようなもの）
+1. fixtureファイルの作成:
+   - JSONまたはXML形式で、投入したいデータを記述する
+   - Djangoのadminサイトでサンプルデータを生成し、それをエクスポートしてテンプレートとして利用することも可能
+2. fixturesディレクトリの作成:
+   - アプリケーションのディレクトリ内にfixturesディレクトリを作成し、作成したfixtureファイルを配置する 
+3. コマンド実行:
+   - ターミナルで以下のコマンドを実行
+    ``` bash
+    python manage.py loaddata <fixtureファイル名>
+    ```
+
+## fixturesファイルのサンプル
+``` json
+# users.json
+[
+    {"model": "myapp.User", "pk": 1, "fields": {"username": "admin", "email": "admin@example.com"}},
+    {"model": "myapp.User", "pk": 2, "fields": {"username": "user", "email": "user@example.com"}}
+]
+```
+
+## fixturexの実行コマンド例
+``` bash
+python manage.py loaddata users.json
+```
+
+## Djangoのfixturesで現在時刻を登録する方法
+- Djangoのfixturesで、create_dataやupdated_dataフィールドに現在時刻を登録したい場合
+  - 直接時刻を記述するのではなく、Pythonのスクリプトで動的に生成し、fixturesファイルに書き込む
+
+``` python
+# manage.pyのcommands.pyに以下のコードを追加
+from django.core.management.base import BaseCommand
+import json
+from django.utils import timezone
+
+class Command(BaseCommand):
+    help = 'Generate fixtures with current timestamp'
+
+    def handle(self, *args, **options):
+        # fixturesファイルのパス
+fixtures_file = 'my_app/fixtures/my_data.json'
+
+# データのリスト
+data = [
+    {
+        "model": "myapp.MyModel",
+        "pk": 1,
+        "fields": {
+            "name": "サンプルデータ",
+            "created_at": timezone.now().isoformat(),  # 現在時刻をISO形式で
+            "updated_at": timezone.now().isoformat()
+        }
+    },
+    # ... 他のデータ
+]
+
+# JSONファイルに書き込み
+with open(fixtures_file, 'w') as f:
+    json.dump(data, f, indent=4)
+```
+
+``` bash
+python manage.py generate_fixtures
+```
+
+## 機能拡張の手順
+### view関連
+1. config/urls.pyにルートを追加
+2. 必要なhtmlテンプレートファイルとviewファイルを作成
+   1. 必要に応じてformファイルも作成
+
+### model関連・ロジック
+1. model：モデル定義に関することだけを定義
+2. manager:モデルに対するCRUD関連処理を定義
+3. service:managerを経由したmodelへのアクセスや、各機能ごとの処理を記載
+4. view:表示処理

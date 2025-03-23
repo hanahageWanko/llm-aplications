@@ -1,0 +1,20 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}親テンプレートのタイトル{% endblock %}</title>
+    {% tailwind_css %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+    <main class="grid min-h-full place-items-center bg-white px-6 lg:px-8">
+        <div class="flex items-center justify-center w-full">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+</body>
+</html>

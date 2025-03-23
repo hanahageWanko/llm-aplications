@@ -16,7 +16,6 @@ class ChatView(FormView):
     def __init__(self, *args, **kwargs):
         # 引数で設定ファイル名を指定
         self.logger = DynamicLogger().logger
-
     # def get(self, request):
     #     self.logger.info('[get]')
     #     form = self.form_class()

@@ -9,11 +9,21 @@ class RequirementDefinitions(models.Model):
 
     Attributes:
         id (AutoField): Auto increment ID
-        user_uuid (UUIDField): 各ユーザーのuuid
-        persona_id (IntegerField): ペルソナid
-        message (CharField): ロールid
-        created_date (DateTimeField): レコード作成時間
-        updated_date (DateTimeField): レコード更新時間
+        future_outlook:今後の展望
+        issues_and_solutions:課題と対策
+        key_Features:主要機能
+        kpi:kpi
+        load_map_year1:3年間のプロダクトロードマップ1年目
+        load_map_year2:3年間のプロダクトロードマップ2年目
+        load_map_year3:3年間のプロダクトロードマップ3年目
+        message:追加指示や留意点
+        milestone:マイルストーン
+        monetization_plan:収益化構想
+        non_functional_requirements:非機能要件
+        overview:概要
+        persona_id:ペルソナID
+        risk:リスク・留意点
+        technical_requirements:技術要件
     """
 
     id = models.AutoField(primary_key=True, db_column="id")
@@ -88,7 +98,7 @@ class RequirementDefinitions(models.Model):
         max_length=256,
         db_column="non_functional_requirements",
         default="",
-        db_comment="非機能用件",
+        db_comment="非機能要件",
     )
 
     overview = models.CharField(
@@ -108,23 +118,23 @@ class RequirementDefinitions(models.Model):
         db_column="risk",
         default="",
         null=True,
-        db_comment="risk",
+        db_comment="リスク・留意点",
     )
 
     technical_requirements = models.CharField(
         max_length=256,
         db_column="technical_requirements",
         default="",
-        db_comment="技術用件",
+        db_comment="技術要件",
     )
 
     user_uuid = models.ForeignKey(
-        Users, on_delete=models.CASCADE, db_column="user_uuid", default=""
+        Users, on_delete=models.CASCADE, db_column="user_uuid", default="" db_comment = "ユーザーUUID"
     )
 
-    created_date = models.DateTimeField(db_column="created_date", auto_now_add=True)
+    created_date = models.DateTimeField(db_column="created_date", auto_now_add=True db_comment="レコード作成時間")
 
-    updated_date = models.DateTimeField(db_column="updated_date", auto_now=True)
+    updated_date = models.DateTimeField(db_column="updated_date", auto_now=True db_comment="レコード更新時間")
 
     class Meta:
         # app_label = 'auth_role_paths'

@@ -1,5 +1,4 @@
 from django.views.generic import ListView
-from django.contrib import messages
 from app.services.utils.logging import DynamicLogger
 from app.models.requirement_definitions import RequirementDefinitions
 

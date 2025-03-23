@@ -1,6 +1,6 @@
 # app.models配下に設置したファイルをimportする
 from .interviews import *
-from .missions import *
+from .requirement_definitions import *
 from .personas import *
 from .reports import *
 from .role_users import *

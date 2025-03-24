@@ -129,12 +129,20 @@ class RequirementDefinitions(models.Model):
     )
 
     user_uuid = models.ForeignKey(
-        Users, on_delete=models.CASCADE, db_column="user_uuid", default="" db_comment = "ユーザーUUID"
+        Users,
+        on_delete=models.CASCADE,
+        db_column="user_uuid",
+        default="",
+        db_comment="ユーザーUUID",
     )
 
-    created_date = models.DateTimeField(db_column="created_date", auto_now_add=True db_comment="レコード作成時間")
+    created_date = models.DateTimeField(
+        db_column="created_date", auto_now_add=True, db_comment="レコード作成時間"
+    )
 
-    updated_date = models.DateTimeField(db_column="updated_date", auto_now=True db_comment="レコード更新時間")
+    updated_date = models.DateTimeField(
+        db_column="updated_date", auto_now=True, db_comment="レコード更新時間"
+    )
 
     class Meta:
         # app_label = 'auth_role_paths'

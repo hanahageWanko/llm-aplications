@@ -38,8 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "app",
-    "tailwind",
-    "theme",
     "django_browser_reload",
     "rest_framework",  # 追加
     "corsheaders",  # 追加
@@ -48,7 +46,6 @@ INSTALLED_APPS = [
     # 'app.models'
 ]
 
-TAILWIND_APP_NAME = "theme"  # tailwindのテーマネーム
 
 # ブラウザのリロード機能を利用
 INTERNAL_IPS = [

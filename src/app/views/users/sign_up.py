@@ -8,6 +8,16 @@ from app.services.utils.accounts.AccountService import AccountService
 # from app.services.users.UserService import UserService
 from app import constants
 
+from rest_framework import viewsets
+from app.serializers.users import UsersSerializer
+from app.models.users import Users
+
+
+# class UsersViewSet(viewsets.ModelViewSet):
+#     serializer_class = UsersSerializer
+#     queryset = Users.objects.all()
+#     print(queryset)
+
 
 class UserSignUpView(FormView):
     """

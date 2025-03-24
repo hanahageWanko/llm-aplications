@@ -11,7 +11,5 @@ langchain
 langchain-openai
 langgraph
 
-django-tailwind[reload]
-
 django-rest-framework
 django-cors-headers
